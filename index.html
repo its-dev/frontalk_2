@@ -1,0 +1,544 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Frontalk</title>
+
+        <link rel="stylesheet" href="css/reset.css">
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/white.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/monokai.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <p style="font-size: 0.8em">Internal IT Stand Up by ITSumma</p>
+                    <h1>Frontalk #2</h1>
+                    <p>Private front enterprise (pet-project)</p>
+                    <aside class="notes">
+                        Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit »S« on your keyboard).
+                    </aside>
+                </section>
+                <section>
+                    <section>
+                        <h1>UI Components</h1>
+                    </section>
+                    <section>
+                        <h4>UI List</h4>
+                        <ul>
+                            <li>Auth screen</li>
+                            <li>Base layout</li>
+                            <li>Grid</li>
+                            <li>Tab</li>
+                            <li>Table</li>
+                            <li>Form</li>
+                            <li>Drawer</li>
+                            <li>Notify</li>
+                            <li>Confirm</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>UI: Auth screen</h4>
+                        <ul>
+                            <li>Background</li>
+                            <li>Form</li>
+                        </ul>
+                    </section>
+                    <section data-background="./img/auth.png" data-background-size="contain" data-background-color="#aaa"></section>
+                    <section>
+                        <h4>UI: Base layout</h4>
+                        <ul>
+                            <li>
+                                Header
+                                <ul>
+                                    <li>Logo</li>
+                                    <li>Navigate resource</li>
+                                    <li>Add controls</li>
+                                </ul>
+                            </li>
+                            <li>
+                                Screen
+                                <ul>
+                                    <li>
+                                        Header
+                                        <ul>
+                                            <li>Screen Title</li>
+                                            <li>Add controls</li>
+                                        </ul>
+                                    </li>
+                                    <li>Body</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section data-background="./img/layout.png" data-background-size="contain" data-background-color="#aaa"></section>
+                    <section>
+                        <h4>UI: Grid</h4>
+                        <ul>
+                            <li>Flex (not grid)</li>
+                            <li>Row</li>
+                            <li>Col</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>UI: Tab</h4>
+                        <ul>
+                            <li>Buttons</li>
+                            <li>Body</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>UI: Table</h4>
+                        <ul>
+                            <li>Header (fixed scroll)</li>
+                            <li>Row (div | link)</li>
+                            <li>Cell</li>
+                            <!-- <li>Configuration</li> -->
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>UI: Form</h4>
+                        <ul>
+                            <!-- <li>Context</li> -->
+                            <li>Form Component</li>
+                            <li>Controls Component</li>
+                            <li>DOM Validity</li>
+                            <li>Default error tooltip</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>UI: Drawer</h4>
+                        <ul>
+                            <!-- <li>Singleton component</li> -->
+                            <li>Animate</li>
+                            <li>Nested</li>
+                        </ul>
+                    </section>
+                    <section data-background="./img/drawer-form.png" data-background-size="contain" data-background-color="#aaa"></section>
+                    <section>
+                        <h4>UI: Notify</h4>
+                        <ul>
+                            <!-- <li>Singleton component</li> -->
+                            <li>Animate</li>
+                            <li>List</li>
+                            <li>Auto close timer</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h4>UI: Confirm</h4>
+                        <ul>
+                            <!-- <li>Singleton component</li> -->
+                            <li>Animate</li>
+                            <li>Nested</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>DX Features</h1>
+                    </section>
+                    <section>
+                        <h4>DX List</h4>
+                        <ul>
+                            <li>Singleton Component</li>
+                            <li>DOM Validity API</li>
+                            <li>Form Context</li>
+                            <li>Form Control</li>
+                            <li>Table Configuration</li>
+                            <li>Fast Resource*</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>Singleton component</h1>
+                    </section>
+                    <section>
+                        <h4>Popup Singleton</h4>
+                        <pre><code data-trim data-line-numbers>
+                            class Popup extends Component {
+                                static _this
+                                state = { hide: true, children: null }
+                                componentDidMount() {
+                                    Popup._this = this
+                                }
+                                static show = (children) => {
+                                    Popup._this.toggle(false, children)
+                                }
+                                static hide = () => {
+                                    Popup._this.toggle(true)
+                                }
+                                toggle = (hide = !this.state.hide, children = null) => {
+                                    if (hide) {
+                                        this.setState({ hide })
+                                        setTimeout(() => this.setState({ children }), 300)
+                                    } else {
+                                        this.setState({ children }, () => {
+                                            this.setState({ hide })
+                                        })
+                                    }
+                                }
+                                render() {
+                                    const { children, hide } = this.state
+                                    const className = `popup ${hide ? 'hide' : 'show'}`
+                                    return (
+                                        &lt;div className={className}&gt;
+                                            {children}
+                                        &lt;/div&gt;
+                                    )
+                                }
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Init singleton component</h4>
+                        <pre><code data-trim data-line-numbers>
+                            const Root: FunctionComponent = () => (
+                                &lt;&gt;
+                                    &lt;LayoutPage&gt;
+                                        &lt;RootRouter/&gt;
+                                    &lt;/LayoutPage&gt;
+                                    &lt;Popup/&gt;
+                                &lt;/&gt;
+                            )
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Using</h4>
+                        <pre><code data-trim data-line-numbers>
+                            import { Popup } from 'src/components/popup'
+                            ...
+                            const showPopup = () => {
+                                Popup.show('message')
+                            }
+                            const hidePopup = () => {
+                                Popup.hide()
+                            }
+                            ...
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Used in project</h4>
+                        <ul>
+                            <li>Drawer</li>
+                            <li>Notify</li>
+                            <li>Confirm</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>DOM validity</h1>
+                    </section>
+                    <section>
+                        <h4>DOM validity API</h4>
+                        <p>DOM Methods:<br>checkValidity(), setCustomValidity()</p>
+                        <p>DOM Properties:<br>validity, validationMessage, willValidate</p>
+                        <p>Validity Properties: <br>customError, valid ...</p>
+                        <p>More info: <a href="https://www.w3schools.com/js/js_validation_api.asp">W3C spec</a></p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>Form</h1>
+                    </section>
+                    <section>
+                        <h4>Form Component</h4>
+                        <pre><code data-trim data-line-numbers>
+                            import { createContext } from 'react'
+                            export const FormContext = createContext(null)
+
+                            function Form({
+                                defaultState, children,
+                                loading = false,
+                                onSubmit: _onSubmit,
+                                onInvalid: _onInvalid,
+                                onChange: _onChange,
+                                ...props
+                            }) {
+                                const [state, setState] = useState(defaultState)
+                                const [error, setError] = useState(null)
+                                const [touched, setTouched] = useState(false)
+                                const [disabled, setDisabled] = useState(loading)
+                            
+                                useEffect(() => setState(defaultState), [defaultState])
+                                useEffect(() => setDisabled(loading), [loading])
+                            
+                                const onChange = (key) => (value) => {
+                                    if (!disabled) {
+                                        let s = {...state}
+                                        s[key] = value
+                                        setState(s)
+                                        _onChange && _onChange(s)
+                                    }
+                                }
+                            
+                                const onSubmit = (e) => {
+                                    e && e.preventDefault()
+                                    if (!disabled) {
+                                        setTouched(true)
+                                        _onSubmit && _onSubmit(state)
+                                    }
+                                }
+                            
+                                const onInvalid = (e) => {
+                                    // e && e.preventDefault()
+                                    if (!disabled) {
+                                        checkValid(e)
+                                        setTouched(true)
+                                        _onInvalid && _onInvalid(e)
+                                    }
+                                }
+                            
+                                const checkValid = (e) => {
+                                    if (!disabled) {
+                                        const controls = e.currentTarget.querySelectorAll('input, textarea, select')
+                                        let _error = {}
+                                        controls.forEach((control) => {
+                                            const { name, validationMessage } = control
+                                            if (validationMessage) {
+                                                _error[name] = validationMessage
+                                            }
+                                        })
+                                        setError(_error)
+                                    }
+                                }
+                            
+                                return (
+                                    &lt;form
+                                        {...props}
+                                        onSubmit={onSubmit}
+                                        onInvalid={onInvalid}
+                                        onChange={checkValid}
+                                    &gt;
+                                        &lt;FormContext.Provider value={{
+                                            state, error, touched, disabled, onChange
+                                        }}&gt;
+                                            {children}
+                                        &lt;/FormContext.Provider&gt;
+                                        &lt;button className="hidden"/&gt;
+                                    &lt;/form&gt;
+                                )
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Use Control hook</h4>
+                        <pre><code data-trim data-line-numbers>
+                            import { useContext, useEffect, useState } from 'react'
+                            import { FormContext } from './context.form'
+                            
+                            function useControlForm(name, val, _onChange) {
+                                const ctx = useContext(FormContext)
+                                const [touched, setTouched] = useState(false)
+                            
+                                useEffect(() => {
+                                    if (val !== undefined && val !== null) {
+                                        ctx.onChange(name)(val)
+                                    }
+                                }, [val])
+                            
+                                const onChange = (e) => {
+                                    let { name, value } = e.currentTarget
+                                    ctx.onChange(name)(value)
+                                    _onChange && _onChange(e)
+                                }
+                            
+                                const onBlur = () => setTouched(true)
+                            
+                                const value = ctx.state[name]
+                                const isError = ((touched || ctx.touched) && ctx.error) ? !!ctx.error[name] : false
+                                const disabled = ctx.disabled
+
+                                return { value, isError, disabled, onChange, onBlur }
+                            }                           
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Input Component</h4>
+                        <pre><code data-trim data-line-numbers>
+                            import React, { FunctionComponent } from 'react'
+                            import { mCn, cn } from 'src/core/bem'
+                            import { useControlForm } from './service.form'
+
+                            interface Props extends React.InputHTMLAttributes&lt;HTMLInputElement&gt; {
+                                name: string
+                            }
+
+                            export const InputForm: FunctionComponent&lt;Props&gt; = ({
+                                value, onChange, className = '', ...props
+                            }) => {
+                                const { isError, ...control } = useControlForm(props.name, value, onChange)
+                                return (
+                                    &lt;input
+                                        className={mCn(cn('input')({isError}), className)}
+                                        {...control}
+                                        {...props}
+                                    /&gt;
+                                )
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>Using</h4>
+                        <pre><code data-trim data-line-numbers>
+                            import React, { useState } from 'react'
+                            import { Form, InputForm, TextareaForm, SelectForm } from 'src/components/form'
+                                
+                            const FormComponent = () => {
+                                const [obj, setObj] = useState({
+                                    name: '',
+                                    email: '',
+                                    old: '',
+                                    pass: '',
+                                    desc: '',
+                                    city: '',
+                                })
+                            
+                                const onSubmit = (value) => {
+                                    setObj(value)
+                                    // ...
+                                }
+                            
+                                return (
+                                    &lt;Form defaultState={obj} onSubmit={onSubmit}&gt;
+                                        &lt;InputForm name="name" minLength={2} required/&gt;
+                                        &lt;InputForm name="email" type="email" required/&gt;
+                                        &lt;InputForm name="old" required/&gt;
+                                        &lt;InputForm name="pass" minLength={2} maxLength={10}/&gt;
+                                        &lt;TextareaForm name="desc"/&gt;
+                                        &lt;SelectForm name="city" required options={[
+                                            { value: 'irk', children: 'Иркутск' },
+                                            { value: 'msc', children: 'Москва' },
+                                        ]} placeholder="Выберите город"/&gt;
+                                        &lt;Button type="submit"&gt;Отправить&lt;/Button&gt;
+                                    &lt;/Form&gt;
+                                )
+                            }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>to do list — form:</h4>
+                        <p>Upload file control (image, bg, avatar)</p>
+                        <p>Nested key ['items.0.address.result']</p>
+                        <p>Custom select (search, req)</p>
+                        <p>Multy select</p>
+                        <p>Radio button</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>Table</h1>
+                    </section>
+                    <section>
+                        <h4>DataTable Interface and Config</h4>
+                        <pre><code data-trim data-line-numbers>
+                            interface Record {
+                                id: number
+                                href?: string
+                                onClick?: (i: number, record: Record) =&gt; void
+                                isHover?: boolean
+                            }
+                            
+                            interface Column&lt;R = Record&gt; {
+                                title?: React.ReactNode
+                                key?: string,
+                                style?: React.CSSProperties
+                                render?: (field: any, record: R) =&gt; React.ReactNode
+                                onClick?: (index: number, record: any) =&gt; void
+                            }
+                            
+                            type Schema&lt;R = Record&gt; = Column&lt;R&gt;[]
+                            
+                            const schema: Schema = [{
+                                title: 'ID',
+                                key: 'id',
+                                style: { width: '62px' },
+                            }, {
+                                title: 'Name',
+                                key: 'name',
+                            }, {
+                                title: 'Description',
+                                key: 'description',
+                            }, {
+                                title: 'Address',
+                                key: 'address.result',
+                            }, {
+                                title: 'ItemsLen',
+                                key: 'items',
+                                style: { width: '1px' },
+                                render: (field, record) =&gt; field.length
+                            }, {
+                                title: '',
+                                style: { width: '1px' },
+                                render: (field, record) =&gt; (
+                                    &lt;ActionCell
+                                        onClickEdit={() =&gt; onShowForm({id: record.id})}
+                                        onClickRemove={() =&gt; {}}
+                                    /&gt;
+                                ),
+                            }]
+
+                            interface Props&lt;R&gt; {
+                                schema: Schema&lt;R&gt;
+                                records: R[]
+                                loading?: boolean
+                            }
+
+                            ...
+                            
+                            return &lt;DataTable schema={schema} records={records}/&gt;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h4>to do list — table:</h4>
+                        <p>Filter records (th, checkbox, input)</p>
+                        <p>Sort records (th, icon-btn)</p>
+                    </section>
+                </section>
+                <section>
+                    <h1>Fast Resource*</h1>
+                </section>
+                <section>
+                    <h4>No time...</h4>
+                    <ul>
+                        <li>Modal on portal</li>
+                        <li>Custom error form</li>
+                        <li>Icon component</li>
+                        <li>BEM classname</li>
+                    </ul>
+                </section>
+                <section>
+                    <h1>THX.</h1>
+                </section>
+            </div>
+        </div>
+
+        <script src="js/reveal.js"></script>
+
+        <script>
+            Reveal.initialize({
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true }
+                ]
+            });
+        </script>
+    </body>
+</html>
